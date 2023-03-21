@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <h1>Register</h1>
+    <button id="back-button">Back</button>
+    <form method="POST" action="">
+        {{ buyer_form.hidden_tag() }}
+        <h2>Buyer Registration</h2>
+        {{ buyer_form.email.label }}: {{ buyer_form.email }}
+        {{ buyer_form.password.label }}: {{ buyer_form.password }}
+        {{ buyer_form.confirm_password.label }}: {{ buyer_form.confirm_password }}
+        {{ buyer_form.submit(class="btn btn-primary") }}
+    </form>
+    <br>
+    <form method="POST" action="">
+        {{ seller_form.hidden_tag() }}
+        <h2>Seller Registration</h2>
+        {{ seller_form.email.label }}: {{ seller_form.email }}
+        {{ seller_form.password.label }}: {{ seller_form.password }}
+        {{ seller_form.confirm_password.label }}: {{ seller_form.confirm_password }}
+        {{ seller_form.submit(class="btn btn-primary") }}
+    </form>
+{% endblock %}

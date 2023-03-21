@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <h1>Login</h1>
+    <button id="back-button">Back</button>
+    <h2>Buyer Login</h2>
+    <form method="POST" action="">
+        {{ buyer_form.hidden_tag() }}
+        {{ buyer_form.email.label }}: {{ buyer_form.email }}
+        {{ buyer_form.password.label }}: {{ buyer_form.password }}
+        {{ buyer_form.remember.label }}: {{ buyer_form.remember }}
+        {{ buyer_form.submit(class="btn btn-primary") }}
+    </form>
+    <br>
+    <h2>Seller Login</h2>
+    <form method="POST" action="">
+        {{ seller_form.hidden_tag() }}
+        {{ seller_form.email.label }}: {{ seller_form.email }}
+        {{ seller_form.password.label }}: {{ seller_form.password }}
+        {{ seller_form.remember.label }}: {{ seller_form.remember }}
+        {{ seller_form.submit(class="btn btn-primary") }}
+    </form>
+{% endblock %}
+
+
