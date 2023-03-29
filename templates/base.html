@@ -16,6 +16,6 @@
         {% endblock %}
     </div>
     <!-- Include your JavaScript file here or add the script tag with the code -->
-    <script src="main.js"></script>
+    <script src="{{ url_for('static', filename='main.js') }}"></script>
 </body>
 </html>
