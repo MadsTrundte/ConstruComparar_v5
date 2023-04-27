@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+
+{% block content %}
+  <h1>{{ title }}</h1>
+  
+  <!-- Section for active quotes -->
+  <section>
+    <h2>Active Quotes</h2>
+    {% if active_quotes %}
+      <!-- Display the active quotes here -->
+    {% else %}
+      <p>No active quotes at the moment.</p>
+    {% endif %}
+  </section>
+  
+  <!-- Button to create a new quote request -->
+  <a href="{{ url_for('create_quote_request') }}" class="btn btn-primary">Create a new quote request</a>
+  
+  <!-- Logout button -->
+  <a href="{{ url_for('logout') }}" class="btn btn-danger">Logout</a>
+{% endblock %}

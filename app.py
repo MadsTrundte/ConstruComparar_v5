@@ -42,6 +42,8 @@ with app.app_context():
 
 # Routes
 
+# Routes
+
 @app.route('/')
 def index():
     return render_template('index.html')
@@ -57,18 +59,21 @@ def register():
             new_buyer = Buyer(email=buyer_form.email.data, password=hashed_password)
             db.session.add(new_buyer)
             db.session.commit()
-            flash('Congratulations, you are now a registered buyer!', 'success')
-            return redirect(url_for('login'))
+            return redirect(url_for('success', user_type='Buyer'))
         elif seller_form.validate_on_submit():
             hashed_password = generate_password_hash(seller_form.password.data, method='sha256')
             new_seller = Seller(email=seller_form.email.data, password=hashed_password)
             db.session.add(new_seller)
             db.session.commit()
-            flash('Congratulations, you are now a registered seller!', 'success')
-            return redirect(url_for('login'))
+            return redirect(url_for('success', user_type='Seller'))
         else:
             flash('Registration Unsuccessful. Please check the entered data.', 'danger')
     return render_template('register.html', title='Register', buyer_form=buyer_form, seller_form=seller_form)
+
+# Success route
+@app.route('/success/<string:user_type>')
+def success(user_type):
+    return render_template('success.html', user_type=user_type)
 
 # Login route
 @app.route('/login', methods=['GET', 'POST'])
@@ -80,7 +85,7 @@ def login():
         if user and check_password_hash(user.password, buyer_form.password.data):
             login_user(user, remember=buyer_form.remember.data)
             next_page = request.args.get('next')
-            return redirect(next_page) if next_page else redirect(url_for('index'))
+            return redirect(next_page) if next_page else redirect(url_for('buyer_dashboard'))
         else:
             flash('Login Unsuccessful. Please check email and password', 'danger')
     elif seller_form.validate_on_submit():
@@ -88,18 +93,32 @@ def login():
         if user and check_password_hash(user.password, seller_form.password.data):
             login_user(user, remember=seller_form.remember.data)
             next_page = request.args.get('next')
-            return redirect(next_page) if next_page else redirect(url_for('index'))
+            return redirect(next_page) if next_page else redirect(url_for('seller_dashboard'))
         else:
             flash('Login Unsuccessful. Please check email and password', 'danger')
-
     return render_template('login.html', title='Login', buyer_form=buyer_form, seller_form=seller_form)
 
+
+@app.route('/buyer_dashboard')
+@login_required
+def buyer_dashboard():
+    # You can add logic here to fetch and display active quotes or show a button to create a quote request
+    return render_template('buyer_dashboard.html', title='Buyer Dashboard')
+
+@app.route('/seller_dashboard')
+@login_required
+def seller_dashboard():
+    # You can add logic here to fetch and display submitted quotes for active quote requests
+    return render_template('seller_dashboard.html', title='Seller Dashboard')
 
 @app.route('/logout')
 @login_required
 def logout():
     logout_user()
     return redirect(url_for('index'))
+
+
+    return render_template('login.html', title='Login', buyer_form=buyer_form, seller_form=seller_form)
 
 # Main entry point
 if __name__ == '__main__':
