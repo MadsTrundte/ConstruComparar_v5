@@ -80,7 +80,7 @@ def login():
         if user and check_password_hash(user.password, buyer_form.password.data):
             login_user(user, remember=buyer_form.remember.data)
             next_page = request.args.get('next')
-            return redirect(next_page) if next_page else redirect(url_for('index'))
+            return redirect(next_page) if next_page else redirect(url_for('buyer_dashboard'))
         else:
             flash('Login Unsuccessful. Please check email and password', 'danger')
     elif seller_form.validate_on_submit():
@@ -88,9 +88,23 @@ def login():
         if user and check_password_hash(user.password, seller_form.password.data):
             login_user(user, remember=seller_form.remember.data)
             next_page = request.args.get('next')
-            return redirect(next_page) if next_page else redirect(url_for('index'))
+            return redirect(next_page) if next_page else redirect(url_for('seller_dashboard'))
         else:
             flash('Login Unsuccessful. Please check email and password', 'danger')
+     return render_template('login.html', title='Login', buyer_form=buyer_form, seller_form=seller_form)
+
+@app.route('/buyer_dashboard')
+@login_required
+def buyer_dashboard():
+    # You can add logic here to fetch and display active quotes or show a button to create a quote request
+    return render_template('buyer_dashboard.html', title='Buyer Dashboard')
+
+@app.route('/seller_dashboard')
+@login_required
+def seller_dashboard():
+    # You can add logic here to fetch and display submitted quotes for active quote requests
+    return render_template('seller_dashboard.html', title='Seller Dashboard')
+
 
     return render_template('login.html', title='Login', buyer_form=buyer_form, seller_form=seller_form)
 
